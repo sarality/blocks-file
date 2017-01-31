@@ -25,14 +25,14 @@ class ExternalStorageUriResolver implements UriResolver {
 
   @Override
   public FileInfo resolve(Context context, Uri uri) {
-    final String id = DocumentsContract.getDocumentId(uri);
-    final String[] uriSplit = id.split(":");
-    final String type = uriSplit[0];
-    final String filePath = uriSplit[1];
+    String id = DocumentsContract.getDocumentId(uri);
+    String[] uriSplit = id.split(":", 2);
+    String type = uriSplit[0];
+    String filePath = uriSplit[1];
     String path;
 
     if ("primary".equalsIgnoreCase(type)) {
-      path = Environment.getExternalStorageDirectory() + "/" + filePath;
+      path = Environment.getExternalStorageDirectory() + File.separator + filePath;
       File file = new File(path);
       return new FileInfo(file.getPath(), file.getName());
     } else {
