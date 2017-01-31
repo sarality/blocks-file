@@ -24,8 +24,8 @@ public class SelectFileAction implements ViewAction {
     this(activity, fileType, titleResourceId, resultCode, false);
   }
 
-  public SelectFileAction(Activity activity, String fileType, int titleResourceId, int resultCode, boolean
-      allowMultiple) {
+  public SelectFileAction(Activity activity, String fileType, int titleResourceId, int resultCode,
+      boolean allowMultiple) {
     this.activity = activity;
     this.fileType = fileType;
     this.titleResourceId = titleResourceId;
