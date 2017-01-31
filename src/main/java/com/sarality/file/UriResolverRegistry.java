@@ -15,6 +15,7 @@ public class UriResolverRegistry {
   public UriResolverRegistry() {
     super();
     register(new DownloadsUriResolver());
+    register(new ExternalStorageUriResolver());
   }
 
   public void register(UriResolver resolver) {
