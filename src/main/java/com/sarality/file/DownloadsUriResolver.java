@@ -17,6 +17,7 @@ class DownloadsUriResolver implements UriResolver {
 
   private static final String AUTHORITY = "com.android.providers.downloads.documents";
   private static final String BASE_CONTENT_URI = "content://downloads/public_downloads";
+  private static final String BASE_CONTENT_URI_ALT_1 = "content://downloads/my_downloads";
 
   @Override
   public String getAuthority() {
@@ -26,8 +27,13 @@ class DownloadsUriResolver implements UriResolver {
   @Override
   public FileInfo resolve(Context context, Uri uri) {
     final String id = DocumentsContract.getDocumentId(uri);
-    final Uri contentUri = ContentUris.withAppendedId(Uri.parse(BASE_CONTENT_URI), Long.valueOf(id));
-
+    try {
+      final Uri contentUri = ContentUris.withAppendedId(Uri.parse(BASE_CONTENT_URI), Long.valueOf(id));
+      return queryFileInfo(context, contentUri, null, null);
+    } catch (IllegalArgumentException e) {
+      // Ignore exception and try next URI
+    }
+    final Uri contentUri = ContentUris.withAppendedId(Uri.parse(BASE_CONTENT_URI_ALT_1), Long.valueOf(id));
     return queryFileInfo(context, contentUri, null, null);
   }
 
