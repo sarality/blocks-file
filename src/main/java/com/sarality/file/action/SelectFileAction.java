@@ -36,7 +36,12 @@ public class SelectFileAction implements ViewAction {
 
   @Override
   public boolean perform(ActionContext actionContext) {
-    Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
+    Intent chooseFile;
+    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+      chooseFile = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+    } else {
+      chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
+    }
     chooseFile.setType(fileType);
     if (allowMultiple && android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
       chooseFile.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
