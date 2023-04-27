@@ -236,22 +236,26 @@ public class UriUtils {
   }
 
   private static void saveFileFromUri(Context context, Uri uri, String destinationPath) {
-    InputStream is = null;
-    BufferedOutputStream bos = null;
+    InputStream input = null;
+    BufferedOutputStream output = null;
     try {
-      is = context.getContentResolver().openInputStream(uri);
-      bos = new BufferedOutputStream(new FileOutputStream(destinationPath, false));
-      byte[] buf = new byte[1024];
-      is.read(buf);
-      do {
-        bos.write(buf);
-      } while (is.read(buf) != -1);
+      input = context.getContentResolver().openInputStream(uri);
+      output = new BufferedOutputStream(new FileOutputStream(destinationPath, false));
+      byte[] buffer = new byte[1024];
+      int bytesRead;
+      while ((bytesRead = input.read(buffer)) != -1) {
+        output.write(buffer, 0, bytesRead);
+      }
     } catch (IOException e) {
       e.printStackTrace();
     } finally {
       try {
-        if (is != null) is.close();
-        if (bos != null) bos.close();
+        if (input != null) {
+          input.close();
+        }
+        if (output != null) {
+          output.close();
+        }
       } catch (IOException e) {
         e.printStackTrace();
       }
